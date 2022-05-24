@@ -1,11 +1,12 @@
 <template>
     <div id="hy-swiper">
-        <div class="swiper" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd" >
+        <div class="swiper" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
             <slot></slot>
         </div>
         <div class="indicator" v-if="showIndicator && slideCount > 1">
             <slot name="indicator">
-                <div v-for="(item, index) in slideCount" :key="index" class="indi-item" :class="{active:index===currentIndex-1 }"></div>
+                <div v-for="(item, index) in slideCount" :key="index" class="indi-item"
+                    :class="{ active: index === currentIndex - 1 }"></div>
             </slot>
         </div>
     </div>
@@ -14,11 +15,11 @@
 <script>
 export default {
     name: 'Swiper',
-    props :{
+    props: {
         //轮播图间隔时间
-        interval: { 
+        interval: {
             type: Number,
-            default: 3000,
+            default: 2000,
         },
         //轮播图滚动动画时间
         animDuration: {
@@ -31,7 +32,7 @@ export default {
             default: 0.5,
         },
         // 是否显示indicator
-        showIndicator:{
+        showIndicator: {
             type: Boolean,
             default: true,
         }
@@ -48,25 +49,25 @@ export default {
             distance: 0, //拖动开始到结束的距离
         }
     },
-   mounted() {
-    //    1.操作DOM，在前后添加slide
-    setTimeout(() =>{
-        this.handleDom();
-        // 2.开启定时器
-        this.startTimer();
-    }, 300);
-   },
+    mounted() {
+        //    1.操作DOM，在前后添加slide
+        setTimeout(() => {
+            this.handleDom();
+            // 2.开启定时器
+            this.startTimer();
+        }, 300);
+    },
     methods: {
         /**
          * 定时器操作
          */
         startTimer() {
             this.playerTimer = window.setInterval(() => {
-                this.currentIndex ++;
+                this.currentIndex++;
                 this.scrollContent(-this.currentIndex * this.totalWidth);
             }, this.interval);
         },
-        stopTimer(){
+        stopTimer() {
             window.clearInterval(this.playerTimer);
         },
         /**
@@ -85,18 +86,18 @@ export default {
 
             // 3.滚动完成
             this.scrolling = false;
-        } ,
+        },
         /**
          * 校验正确的位置
          */
-        checkPosition(){
-            window.setTimeout(()=>{
+        checkPosition() {
+            window.setTimeout(() => {
                 // 1.对位置的判断
                 this.swiperStyle.transition = '0ms';
-                if(this.currentIndex >= this.slideCount + 1){
+                if (this.currentIndex >= this.slideCount + 1) {
                     this.currentIndex = 1;
                     this.setTransform(-this.currentIndex * this.totalWidth);
-                }else if(this.currentIndex <=0){
+                } else if (this.currentIndex <= 0) {
                     this.currentIndex = this.slideCount;
                     this.setTransform(-this.currentIndex * this.totalWidth);
                 }
@@ -116,7 +117,7 @@ export default {
         /**
          * 操作DOm，在DOM前后添加slide
          */
-        handleDom(){
+        handleDom() {
             // 1.获取要操作的DOM元素
             let swiperEl = document.querySelector('.swiper');
             let slideEls = document.getElementsByClassName('slide');
@@ -125,7 +126,7 @@ export default {
             this.slideCount = slideEls.length;
 
             // 3.如果个数大于1个，那么要分别在前后加一个slide
-            if(this.slideCount > 1){
+            if (this.slideCount > 1) {
                 let cloneFirst = slideEls[0].cloneNode(true);
                 let cloneLast = slideEls[this.slideCount - 1].cloneNode(true);
                 swiperEl.insertBefore(cloneLast, slideEls[0]);
@@ -141,10 +142,10 @@ export default {
         /**
          * 拖动事件的处理
          */
-        touchStart(e){
+        touchStart(e) {
             // 1.如果正在滚动，不可以拖动
-            if(this.scrolling) return;
-            
+            if (this.scrolling) return;
+
             // 2. 首先停止定时器
             this.stopTimer();
 
@@ -156,7 +157,7 @@ export default {
             // 1.计算出用户拖动的距离
             let currentX = e.touches[0].pageX;
             this.distance = currentX - this.startX;
-            let currentPosition = -this.currentIndex *  this.totalWidth;
+            let currentPosition = -this.currentIndex * this.totalWidth;
             let moveDistance = this.distance + currentPosition;
 
             // 2.设置当前的位置
@@ -168,14 +169,14 @@ export default {
             let currentMove = Math.abs(this.distance);
 
             //2.判断最终的距离
-            if(this.distance === 0) {
+            if (this.distance === 0) {
                 return;
-            } else if(this.distance > 0 && currentMove > this.totalWidth * this.moveRatio){
+            } else if (this.distance > 0 && currentMove > this.totalWidth * this.moveRatio) {
                 //左边移动超过0.5
-                this.currentIndex --;
-            } else if(this.distance < 0 && currentMove > this.totalWidth * this.moveRatio){
+                this.currentIndex--;
+            } else if (this.distance < 0 && currentMove > this.totalWidth * this.moveRatio) {
                 // 右边移动超过0.5
-                this.currentIndex ++;
+                this.currentIndex++;
             }
 
             //3.移动到正确的位置
@@ -188,15 +189,15 @@ export default {
         /**
          * 控制上一个,下一个
          */
-        previous(){
+        previous() {
             this.changeItem(-1);
         },
 
-        next(){
+        next() {
             this.changeItem(1);
         },
 
-        changeItem: function(num) {
+        changeItem: function (num) {
             //1.关闭定时器
             this.stopTimer();
 
@@ -217,9 +218,11 @@ export default {
     overflow: hidden;
     position: relative;
 }
+
 .swiper {
     display: flex;
 }
+
 .indicator {
     display: flex;
     justify-content: center;
@@ -227,6 +230,7 @@ export default {
     width: 100%;
     bottom: 8px;
 }
+
 .indi-item {
     box-sizing: border-box;
     width: 8px;
@@ -238,8 +242,9 @@ export default {
     font-size: 12px;
     margin: 0 5px;
 }
+
 .indi-item.active {
-    background: rgba(212,62,46,1.0);
+    background: rgba(212, 62, 46, 1.0);
 }
 </style>
 

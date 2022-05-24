@@ -8,7 +8,7 @@ export function request(config) {
         // 2.响应拦截
         // -----2.1拦截之请求拦截
     instance.interceptors.request.use(config => {
-            console.log(config);
+            // console.log(config);
             return config
         }, err => {
             console.log(err);

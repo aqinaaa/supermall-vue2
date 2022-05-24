@@ -26,6 +26,7 @@ export default {
   height: 44px;
   box-shadow: 0 1px 1px rgba(100, 100, 100, .1);
   font-size: 18px;
+
 }
 
 .right,
