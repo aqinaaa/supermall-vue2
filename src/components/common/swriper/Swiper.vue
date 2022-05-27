@@ -19,7 +19,7 @@ export default {
         //轮播图间隔时间
         interval: {
             type: Number,
-            default: 2000,
+            default: 3000,
         },
         //轮播图滚动动画时间
         animDuration: {
@@ -55,7 +55,7 @@ export default {
             this.handleDom();
             // 2.开启定时器
             this.startTimer();
-        }, 300);
+        }, 5000);
     },
     methods: {
         /**

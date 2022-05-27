@@ -13,5 +13,8 @@ export function getHomeGoods(type, page) {
             type,
             page
         }
+    }).catch(err => {
+        this.$message.error(err.message);
+        console.log(err);
     })
 }
